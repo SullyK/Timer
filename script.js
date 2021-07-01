@@ -13,14 +13,16 @@ let elapsedPauseTime = 0;
 let pauseStart;
 let pauseEnd;
 let toggle = false;
+let previousDifference = 0;
+
 
 document.getElementById("a").innerText = minutes.toString() + ":" + seconds.toString();
 
 
-//TODO: FIX THE GLITCH WHEN PAUSING AND STARTING
+//TODO: Countdown goes two seconds down- rounding
 
 function countdownStart(){
-    if(running == false){
+    if(running == false && pause == false){
     startTime = new Date().getTime();
     running = true;
     pause = false;
@@ -40,24 +42,26 @@ function endShowTime(){
     clearInterval(interval);
 }
 
-function pauseTime(){
+// function pauseTime(){
 
-    if(running == true && pause == false){
-        clearInterval(interval);
-        running = false;
-        pause = true;
-        pauseStart = new Date().getTime();
-    }
-    else if(running == false && pause == true){
+//     if(running == true && pause == false){
+//         clearInterval(interval);
+//         running = false;
+//         pause = true;
+//         pauseStart = new Date().getTime();
+//     }
+//     else if(running == false && pause == true){
         
-        running = true;
-        pause = false;
-        pauseEnd = new Date().getTime();
-        elapsedPauseTime += ((pauseEnd - pauseStart )/ 1000)
-        interval = setInterval(showTime, 1000);
-    }
+//         running = true;
+//         pause = false;
+//         pauseEnd = new Date().getTime();
+//         new Date(SECONDS * 1000).toISOString().substr(11, 8)
 
-}
+//         // elapsedPauseTime += (pauseEnd - pauseStart )/ 1000
+//         interval = setInterval(showTime, 1000);
+//     }
+
+// }
 
 function showTime(){
     updatedTime = new Date().getTime();
@@ -66,10 +70,10 @@ function showTime(){
     console.log("saveSeconds Time= " + saveSeconds);
     console.log("elapsedPauseTime Time= " + elapsedPauseTime);
     difference = (countdownTime - (saveSeconds - elapsedPauseTime));
+    
     if(Number.isInteger(difference)){
         difference = difference - 0.001;
     }
-    console.log("ShowTime:" + difference)
 
     minutes = Math.floor(difference / 60);
     seconds = (Math.floor(difference)- minutes * 60);
@@ -87,24 +91,25 @@ function showTime(){
         document.getElementById("b").innerText = 0;
         endShowTime();
     }
+    previousDifference = difference;
 }
 
-let changeButtonText = () =>{
-    let text = document.getElementById("pauseButton");
-    if(toggle == false && running == true){
-    text.innerText = "Resume";
-    toggle = true;
-    }
-    else if(toggle == true){
-        text.innerText = "Pause";
-        toggle = false;
-    }
-}
+// let changeButtonText = () =>{
+//     let text = document.getElementById("pauseButton");
+//     if(toggle == false && running == true){
+//     text.innerText = "Resume";
+//     toggle = true;
+//     }
+//     else if(toggle == true){
+//         text.innerText = "Pause";
+//         toggle = false;
+//     }
+// }
 
 
 document.getElementById("startButton").addEventListener("click", countdownStart);
-document.getElementById("pauseButton").addEventListener("click", changeButtonText);
-document.getElementById("pauseButton").addEventListener("click", pauseTime);
+// document.getElementById("pauseButton").addEventListener("click", changeButtonText);
+// document.getElementById("pauseButton").addEventListener("click", pauseTime);
 
 
 
