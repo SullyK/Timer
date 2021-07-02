@@ -1,23 +1,21 @@
+//TODO: Countdown goes two seconds down- rounding - when paused
+//TODO: Fix the audio issue.
 
 let running = false;
 let pause = false;
-let startTime;
-let updatedTime;
-let difference;
-let countdownTime = 55 + 1;
+let startTime, difference;
+let workTime = 10;
+let breakTime = 5;
+let time = 0;
 let interval;
-let minutes =  Math.floor((countdownTime- 1) / 60);
-let seconds = Math.floor((countdownTime- 1))- minutes * 60;
-let saveSeconds;
-let elapsedPauseTime = 0;
-let pauseStart;
-let pauseEnd;
+let minutes =  Math.floor((workTime- 1) / 60);
+let seconds = Math.floor((workTime))- minutes * 60;
 let toggle = false;
-let previousDifference = 0;
-let two;
-let savedTime;
-let newTime;
-let lastTimer;
+let two, savedTime, newTime, lastTimer;
+let studyMode = true; // Study mode = true, break mode = false;
+
+
+
 
 if(seconds>9){
     document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
@@ -26,9 +24,9 @@ else{
     document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
 }
 
+console.log(seconds.toString());
 
-//TODO: Countdown goes two seconds down- rounding - when paused
-//TODO: Fix the audio issue.
+
 
 function countdownStart(){
     
@@ -36,98 +34,141 @@ function countdownStart(){
     startTime = dayjs()
     running = true;
     pause = false;
-    interval = setInterval(showTime, 1000); // every second
-    // tahir
+    interval = setInterval(showTime, 60); // every second
     // setInterval(showTime2, 100);
     }
 }
 
-function resume(){
-    let savedTime =  (two.diff(startTime,"seconds"));
+// function resume(){
+//      savedTime =  (two.diff(startTime,"seconds"));
     
-    if(running == false){
-    startTime = (two.diff(startTime,"seconds"));
-    running = true;
-    interval = setInterval(showTime, 1000);
-    }
-}
+//     if(running == false){
+//     startTime = (two.diff(startTime,"seconds"));
+//     running = true;
+//     interval = setInterval(showTime, 10);
+//     }
+// }
 
 function endShowTime(){
     clearInterval(interval);
     running = false;
     pause = false;
-    minutes =  Math.floor((countdownTime- 1) / 60);
-    seconds = Math.floor((countdownTime- 1))- minutes * 60;
+    if(studyMode == true){
+        minutes = Math.floor(breakTime % 3600 / 60);
+        seconds =  Math.floor(breakTime % 3600 % 60);
+    }
+
+    if(studyMode == false){
+        minutes = Math.floor(workTime % 3600 / 60);
+        seconds =  Math.floor(workTime % 3600 % 60);
+    }
+   
 
     console.log("mins " + minutes);
     console.log("secs " + seconds);
 
-    if(seconds>9){
-        document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
-    }
-    else{
-        document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
-    }
+    if(studyMode == true){
+        studyMode = false; // turn on break mode
+        if(seconds>9){
+            document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
+            document.body.style.backgroundColor = "#92D293";
 
+        }
+        else{
+            document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
+            document.body.style.backgroundColor = "#92D293";
+
+        }
+    }
+    else if(studyMode == false){
+        studyMode = true; // turn on study Mode
+        if(seconds>9){
+            document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
+            document.body.style.backgroundColor = "#ef594a";
+
+        }
+        else{
+            document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
+            document.body.style.backgroundColor = "#ef594a";
+
+        }
+    }
 
 }
 
-function pauseTime(){
+// function pauseTime(){
 
-    if(running == true && pause == false){
+//     if(running == true && pause == false){
         
-        savedTime = (two.diff(startTime,"seconds"));
-        console.log("saved time" + savedTime);
+//         savedTime = (two.diff(startTime,"seconds"));
+//         console.log("saved time" + savedTime);
     
-        clearInterval(interval);
-        running = false;
-        pause = true;
-    }
-    else if(running == false && pause == true){
+//         clearInterval(interval);
+//         running = false;
+//         pause = true;
+//     }
+//     else if(running == false && pause == true){
         
-        running = true;
-        pause = false;
-        newTime = dayjs();
-        interval = setInterval(resumeTimer, 10);
-    }
+//         running = true;
+//         pause = false;
+//         newTime = dayjs();
+//         interval = setInterval(resumeTimer, 60);
+//     }
 
-}
+// }
 
 
-function resumeTimer(){
-    two = dayjs();
-    lastTimer = dayjs();
-    difference = countdownTime - savedTime -  (lastTimer.diff(newTime,"seconds"))
-    console.log("difference : " + difference)
+// function resumeTimer(){
+//     two = dayjs();
+//     lastTimer = dayjs();
+//     difference = countdownTime - savedTime -  (lastTimer.diff(newTime,"seconds"))
+//     console.log("difference : " + difference)
     
 
-    if(seconds>9){
-        document.getElementById("a").innerText =  minutes.toString() + ":" + difference.toString();
-    }
-    else{
-        document.getElementById("a").innerText =  minutes.toString() + ":0" + difference.toString();
-    }
-    if(difference <= 1){
-        document.getElementById("a").innerText = 0;
-        endShowTime();
-    }
-}
+//     if(seconds>9){
+//         document.getElementById("a").innerText =  minutes.toString() + ":" + difference.toString();
+//     }
+//     else{
+//         document.getElementById("a").innerText =  minutes.toString() + ":0" + difference.toString();
+//     }
+//     if(difference <= 0){
+//         document.getElementById("a").innerText = 0;
+//         endShowTime();
+//     }
+// }
 
 
 
 function showTime(){
     two = dayjs();
-    difference = countdownTime - (two.diff(startTime,"seconds"))
-    console.log(difference);
-    
 
-    if(seconds>9){
-        document.getElementById("a").innerText =  minutes.toString() + ":" + difference.toString();
+    if(studyMode == false){
+    time = breakTime;
+    }
+    else if(studyMode == true){
+    time = workTime;
+    }
+
+    difference = time - (two.diff(startTime,"seconds"));
+   
+
+    console.log("difference: " + difference);
+    console.log(time);
+    minutes = Math.floor(difference % 3600 / 60);
+    seconds =  Math.floor(difference % 3600 % 60);
+    // console.log("minutes  =" + Math.floor(difference % 3600 / 60));
+    // console.log("seconds =" +  Math.floor(difference % 3600 % 60));
+
+
+    if(difference>9){
+        document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
     }
     else{
-        document.getElementById("a").innerText =  minutes.toString() + ":0" + difference.toString();
+        console.log("triggered;")
+        document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
     }
-    if(difference <= 1){
+
+    if(difference <= 0){
         document.getElementById("a").innerText = 0;
         endShowTime();
     }
@@ -177,8 +218,9 @@ let changeButtonText = () =>{
 document.getElementById("startButton").addEventListener("click", countdownStart);
 // document.getElementById("startButton").addEventListener("click", playAudio);
 
-document.getElementById("pauseButton").addEventListener("click", changeButtonText);
-document.getElementById("pauseButton").addEventListener("click", pauseTime);
+// document.getElementById("pauseButton").addEventListener("click", changeButtonText);
+// document.getElementById("pauseButton").addEventListener("click", pauseTime);
+
 
 
 
