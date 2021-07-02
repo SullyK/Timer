@@ -4,7 +4,7 @@ let pause = false;
 let startTime;
 let updatedTime;
 let difference;
-let countdownTime = 310 + 1;
+let countdownTime = 55 + 1;
 let interval;
 let minutes =  Math.floor((countdownTime- 1) / 60);
 let seconds = Math.floor((countdownTime- 1))- minutes * 60;
@@ -14,25 +14,39 @@ let pauseStart;
 let pauseEnd;
 let toggle = false;
 let previousDifference = 0;
+let two;
+let savedTime;
+let newTime;
+let lastTimer;
+
+if(seconds>9){
+    document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
+}
+else{
+    document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
+}
 
 
-document.getElementById("a").innerText = minutes.toString() + ":" + seconds.toString();
-
-
-//TODO: Countdown goes two seconds down- rounding
+//TODO: Countdown goes two seconds down- rounding - when paused
+//TODO: Fix the audio issue.
 
 function countdownStart(){
+    
     if(running == false && pause == false){
-    startTime = new Date().getTime();
+    startTime = dayjs()
     running = true;
     pause = false;
-    interval = setInterval(showTime, 1000);
+    interval = setInterval(showTime, 1000); // every second
+    // tahir
+    // setInterval(showTime2, 100);
     }
 }
 
 function resume(){
+    let savedTime =  (two.diff(startTime,"seconds"));
+    
     if(running == false){
-    startTime = new Date().getTime();
+    startTime = (two.diff(startTime,"seconds"));
     running = true;
     interval = setInterval(showTime, 1000);
     }
@@ -40,76 +54,131 @@ function resume(){
 
 function endShowTime(){
     clearInterval(interval);
-}
+    running = false;
+    pause = false;
+    minutes =  Math.floor((countdownTime- 1) / 60);
+    seconds = Math.floor((countdownTime- 1))- minutes * 60;
 
-// function pauseTime(){
+    console.log("mins " + minutes);
+    console.log("secs " + seconds);
 
-//     if(running == true && pause == false){
-//         clearInterval(interval);
-//         running = false;
-//         pause = true;
-//         pauseStart = new Date().getTime();
-//     }
-//     else if(running == false && pause == true){
-        
-//         running = true;
-//         pause = false;
-//         pauseEnd = new Date().getTime();
-//         new Date(SECONDS * 1000).toISOString().substr(11, 8)
-
-//         // elapsedPauseTime += (pauseEnd - pauseStart )/ 1000
-//         interval = setInterval(showTime, 1000);
-//     }
-
-// }
-
-function showTime(){
-    updatedTime = new Date().getTime();
-    saveSeconds = ((updatedTime - startTime) / 1000);
-    console.log("countdown Time= " + countdownTime);
-    console.log("saveSeconds Time= " + saveSeconds);
-    console.log("elapsedPauseTime Time= " + elapsedPauseTime);
-    difference = (countdownTime - (saveSeconds - elapsedPauseTime));
-    
-    if(Number.isInteger(difference)){
-        difference = difference - 0.001;
-    }
-
-    minutes = Math.floor(difference / 60);
-    seconds = (Math.floor(difference)- minutes * 60);
-    // console.log(minutes.toString());
-    // console.log(seconds.toString());
     if(seconds>9){
         document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
     }
     else{
         document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
     }
-    console.log(seconds)
-    if(difference <= 1){
-        document.getElementById("a").innerText = 0;
-        document.getElementById("b").innerText = 0;
-        endShowTime();
-    }
-    previousDifference = difference;
+
+
 }
 
-// let changeButtonText = () =>{
-//     let text = document.getElementById("pauseButton");
-//     if(toggle == false && running == true){
-//     text.innerText = "Resume";
-//     toggle = true;
+function pauseTime(){
+
+    if(running == true && pause == false){
+        
+        savedTime = (two.diff(startTime,"seconds"));
+        console.log("saved time" + savedTime);
+    
+        clearInterval(interval);
+        running = false;
+        pause = true;
+    }
+    else if(running == false && pause == true){
+        
+        running = true;
+        pause = false;
+        newTime = dayjs();
+        interval = setInterval(resumeTimer, 10);
+    }
+
+}
+
+
+function resumeTimer(){
+    two = dayjs();
+    lastTimer = dayjs();
+    difference = countdownTime - savedTime -  (lastTimer.diff(newTime,"seconds"))
+    console.log("difference : " + difference)
+    
+
+    if(seconds>9){
+        document.getElementById("a").innerText =  minutes.toString() + ":" + difference.toString();
+    }
+    else{
+        document.getElementById("a").innerText =  minutes.toString() + ":0" + difference.toString();
+    }
+    if(difference <= 1){
+        document.getElementById("a").innerText = 0;
+        endShowTime();
+    }
+}
+
+
+
+function showTime(){
+    two = dayjs();
+    difference = countdownTime - (two.diff(startTime,"seconds"))
+    console.log(difference);
+    
+
+    if(seconds>9){
+        document.getElementById("a").innerText =  minutes.toString() + ":" + difference.toString();
+    }
+    else{
+        document.getElementById("a").innerText =  minutes.toString() + ":0" + difference.toString();
+    }
+    if(difference <= 1){
+        document.getElementById("a").innerText = 0;
+        endShowTime();
+    }
+}
+
+let changeButtonText = () =>{
+    let text = document.getElementById("pauseButton");
+    if(toggle == false && running == true){
+    text.innerText = "Resume";
+    toggle = true;
+    }
+    else if(toggle == true){
+        text.innerText = "Pause";
+        toggle = false;
+    }
+}
+
+// const audio = new Audio("mixkit-happy-bells-notification-937.wav");
+
+// function playAudio(){
+//   audio.play().then(() => { 
+//     audio.pause();
+//   });
+//   checkEnded();
+// };
+
+
+// function checkEnded() {
+//     if(difference <= 1){
+//         return onend();
 //     }
-//     else if(toggle == true){
-//         text.innerText = "Pause";
-//         toggle = false;
-//     }
-// }
+//     setTimeout(checkEnded, 1000);
+//   }
+  
+  
+//   function onend() {
+//     setTimeout(function () {  
+//         audio.load();    
+//    audio.play();
+// }, 150);
+    
+
+//     // startButton.disabled = false;
+//   }
 
 
 document.getElementById("startButton").addEventListener("click", countdownStart);
-// document.getElementById("pauseButton").addEventListener("click", changeButtonText);
-// document.getElementById("pauseButton").addEventListener("click", pauseTime);
+// document.getElementById("startButton").addEventListener("click", playAudio);
+
+document.getElementById("pauseButton").addEventListener("click", changeButtonText);
+document.getElementById("pauseButton").addEventListener("click", pauseTime);
 
 
 
