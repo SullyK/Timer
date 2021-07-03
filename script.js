@@ -121,8 +121,15 @@ function endShowTime(){
         }
     }
 
+    playMusic();
     document.getElementById("startButton").disabled = false;
 
+
+}
+
+let playMusic = () =>{
+    const music = new Audio('mixkit-happy-bells-notification-937.wav');
+    music.play();
 
 }
 
