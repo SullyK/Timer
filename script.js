@@ -33,20 +33,29 @@ console.log(seconds.toString());
 
 function countdownStart(){
 
+    document.getElementById("startButton").disabled = true;
+
+    if(studyMode == true){
     if(s != 0){
         workTime = s;
+        minutes = Math.floor(workTime % 3600 / 60);
+        seconds =  Math.floor(workTime % 3600 % 60);
+    
+    
     }
+}
+else if(studyMode == false){
 
     if(s2 != 0){
         breakTime = s2;
-    }
+        minutes = Math.floor(breakTime % 3600 / 60);
+        seconds =  Math.floor(breakTime % 3600 % 60);
     
-    if(seconds>9){
-        document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
     }
-    else{
-        document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
-    }
+}
+
+    
+  
     if(running == false && pause == false){
     startTime = dayjs()
     running = true;
@@ -110,6 +119,9 @@ function endShowTime(){
 
         }
     }
+
+    document.getElementById("startButton").disabled = false;
+
 
 }
 
