@@ -13,6 +13,9 @@ let seconds = Math.floor((workTime))- minutes * 60;
 let toggle = false;
 let two, savedTime, newTime, lastTimer;
 let studyMode = true; // Study mode = true, break mode = false;
+let str = 0;
+let s = 0;
+let s2 = 0;
 
 
 
@@ -29,7 +32,21 @@ console.log(seconds.toString());
 
 
 function countdownStart(){
+
+    if(s != 0){
+        workTime = s;
+    }
+
+    if(s2 != 0){
+        breakTime = s2;
+    }
     
+    if(seconds>9){
+        document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
+    }
+    else{
+        document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
+    }
     if(running == false && pause == false){
     startTime = dayjs()
     running = true;
@@ -160,7 +177,7 @@ function showTime(){
     // console.log("seconds =" +  Math.floor(difference % 3600 % 60));
 
 
-    if(difference>9){
+    if(seconds>9){
         document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
     }
     else{
@@ -213,9 +230,69 @@ let changeButtonText = () =>{
 
 //     // startButton.disabled = false;
 //   }
+function changeStudyTimer() {
+    str = prompt("Enter your time"); 
+    var p = str.split(':'),
+        s = 0, m = 1;
 
+    while (p.length > 0) {
+        s += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+    console.log(s);
+
+    workTime = s;
+
+    minutes = Math.floor(workTime % 3600 / 60);
+    seconds =  Math.floor(workTime % 3600 % 60);
+
+    
+    if(seconds>9){
+        document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
+    }
+    else{
+        document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
+    }
+
+}
+
+function changeBreakTimer() {
+    str = prompt("Enter your time"); 
+    var p = str.split(':'), m = 1;
+    s2 = 0;
+    while (p.length > 0) {
+        s2 += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+    console.log(s2);
+
+    breakTime = s2;
+
+    minutes = Math.floor(breakTime % 3600 / 60);
+    seconds =  Math.floor(breakTime % 3600 % 60);
+
+    
+    
+    if(seconds>9){
+        document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
+    }
+    else{
+        document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
+    }
+
+}
+
+// let changeStudyTimer = () =>{
+//     let input = prompt("Enter your time in minutes(30)");
+//     let conversion = Math.floor(parseInt(input) % 3600 % 60);
+//     console.log("conversion: " + conversion);
+//     workTime = conversion;
+// }
 
 document.getElementById("startButton").addEventListener("click", countdownStart);
+document.getElementById("studyButton").addEventListener("click", changeStudyTimer);
+document.getElementById("breakButton").addEventListener("click", changeBreakTimer);
+
 // document.getElementById("startButton").addEventListener("click", playAudio);
 
 // document.getElementById("pauseButton").addEventListener("click", changeButtonText);
