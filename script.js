@@ -89,7 +89,7 @@ function endShowTime(){
         seconds =  Math.floor(workTime % 3600 % 60);
     }
    
-    window.navigator.vibrate(200);
+    navigator.vibrate(500);
 
     console.log("mins " + minutes);
     console.log("secs " + seconds);
