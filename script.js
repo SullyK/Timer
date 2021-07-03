@@ -4,7 +4,7 @@
 let running = false;
 let pause = false;
 let startTime, difference;
-let workTime = 10;
+let workTime = 8;
 let breakTime = 5;
 let time = 0;
 let interval;
@@ -17,6 +17,7 @@ let str = 0;
 let s = 0;
 let s2 = 0;
 
+navigator.vibrate(500);
 
 
 
@@ -89,7 +90,6 @@ function endShowTime(){
         seconds =  Math.floor(workTime % 3600 % 60);
     }
    
-    navigator.vibrate(500);
 
     console.log("mins " + minutes);
     console.log("secs " + seconds);
