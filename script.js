@@ -243,16 +243,17 @@ function changeStudyTimer() {
 
     workTime = s;
 
-    minutes = Math.floor(workTime % 3600 / 60);
-    seconds =  Math.floor(workTime % 3600 % 60);
+    let minutes = Math.floor(workTime % 3600 / 60);
+    let seconds =  Math.floor(workTime % 3600 % 60);
 
-    
+    if(studyMode == true){
     if(seconds>9){
         document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
     }
     else{
         document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
     }
+}
 
 }
 
@@ -268,17 +269,18 @@ function changeBreakTimer() {
 
     breakTime = s2;
 
-    minutes = Math.floor(breakTime % 3600 / 60);
-    seconds =  Math.floor(breakTime % 3600 % 60);
+    let minutes = Math.floor(breakTime % 3600 / 60);
+    let seconds =  Math.floor(breakTime % 3600 % 60);
 
     
-    
+    if(studyMode == false){
     if(seconds>9){
         document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
     }
     else{
         document.getElementById("a").innerText =  minutes.toString() + ":0" + seconds.toString();
     }
+}
 
 }
 
