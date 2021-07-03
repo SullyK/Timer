@@ -17,8 +17,6 @@ let str = 0;
 let s = 0;
 let s2 = 0;
 
-navigator.vibrate(500);
-
 
 
 if(seconds>9){
@@ -121,7 +119,9 @@ function endShowTime(){
         }
     }
 
+    window.navigator.vibrate(300);
     playMusic();
+    
     document.getElementById("startButton").disabled = false;
 
 
@@ -130,7 +130,6 @@ function endShowTime(){
 let playMusic = () =>{
     const music = new Audio('mixkit-happy-bells-notification-937.wav');
     music.play();
-
 }
 
 // function pauseTime(){
