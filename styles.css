@@ -25,15 +25,15 @@ body {
   font-size: 1000%;
 }
 .button1 {
-  border: 1px solid #009b9b;
-  background-color: #009b9b;
+  border: 1px solid #9b0000;
+  background-color: #9b0000;
   color: #ffffff;
   padding: 5px 10px;
 }
 
 .button1:hover {
   border: 1px solid #000000;
-  background-color: #009b9b;
+  background-color: #ff0000;
   color: #ffffff;
   padding: 5px 10px;
 }
@@ -45,9 +45,32 @@ body {
   color: #666666;
 }
 
+.button2 {
+  border: 1px solid #009c6e;
+  background-color: #009c6e;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+
+.button2:hover {
+  border: 1px solid #000000;
+  background-color: #04d6d6d2;
+  color: #ffffff;
+  padding: 5px 10px;
+}
+
+.button2:disabled,
+.button2[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
 div {
   padding: 5px 10px;
 }
+
+/* //the blue-ish colour: 009b9b */
 
 /* 
 #container {

@@ -4,7 +4,7 @@
 let running = false;
 let pause = false;
 let startTime, difference;
-let workTime = 8;
+let workTime = 1;
 let breakTime = 5;
 let time = 0;
 let interval;
@@ -94,6 +94,9 @@ function endShowTime(){
 
     if(studyMode == true){
         studyMode = false; // turn on break mode
+        document.getElementById("startButton").className = "button2";
+        document.getElementById("studyButton").className = "button2";
+        document.getElementById("breakButton").className = "button2";
 
         if(seconds>9){
             document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
@@ -107,6 +110,13 @@ function endShowTime(){
         }
     }
     else if(studyMode == false){
+        studyMode = true; // turn on study Mode
+        document.getElementById("startButton").className = "button1";
+        document.getElementById("studyButton").className = "button1";
+        document.getElementById("breakButton").className = "button1";
+
+
+
         if(seconds>9){
             document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
             document.body.style.backgroundColor = "#ef594a";
