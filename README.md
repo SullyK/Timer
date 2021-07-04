@@ -8,3 +8,4 @@ Website Timer
 * **TO DO**: Enforce strict entry of numbers(parsing errors)[ ]
 * **TO DO**: Fix the button[X]
 * **TO DO**: When timer is counting down, make sure the user's change of the time doesn't affect the countdown[]
+* **TO DO**: Fix greyed out start button(inactive) on iOS[]
