@@ -94,6 +94,7 @@ function endShowTime(){
 
     if(studyMode == true){
         studyMode = false; // turn on break mode
+
         if(seconds>9){
             document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
             document.body.style.backgroundColor = "#92D293";
@@ -106,7 +107,6 @@ function endShowTime(){
         }
     }
     else if(studyMode == false){
-        studyMode = true; // turn on study Mode
         if(seconds>9){
             document.getElementById("a").innerText =  minutes.toString() + ":" + seconds.toString();
             document.body.style.backgroundColor = "#ef594a";
