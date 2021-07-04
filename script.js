@@ -4,8 +4,8 @@
 let running = false;
 let pause = false;
 let startTime, difference;
-let workTime = 1;
-let breakTime = 5;
+let workTime = 30;
+let breakTime = 15;
 let time = 0;
 let interval;
 let minutes =  Math.floor((workTime- 1) / 60);
